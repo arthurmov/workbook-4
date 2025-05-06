@@ -1,11 +1,13 @@
 package com.pluralsight;
 
+import java.time.LocalDateTime;
+
 public class Employee {
     private int employeeId;
     private String name;
     private String department;
     private double payRate;
-    private float hoursWorked;
+    private double hoursWorked;
 
     public Employee(int employeeId, String name, String department, double payRate) {
         this.employeeId = employeeId;
@@ -46,11 +48,11 @@ public class Employee {
         this.payRate = payRate;
     }
 
-    public float getHoursWorked() {
+    public double getHoursWorked() {
         return hoursWorked;
     }
 
-    public void setHoursWorked(float hoursWorked) {
+    public void setHoursWorked(double hoursWorked) {
         this.hoursWorked = hoursWorked;
     }
 
@@ -68,5 +70,32 @@ public class Employee {
 
     public double getOvertimeHours() {
         return (hoursWorked > 40) ? hoursWorked - 40 : 0;
+    }
+
+    private double punchInTime;
+
+    public void punchIn(double time) {
+        this.punchInTime = time;
+    }
+
+    public void punchIn() {
+        LocalDateTime dt = LocalDateTime.now();
+        double hours = dt.getHour();
+        double fractionOfHour = dt.getMinute() / 60f;
+
+        this.punchInTime = (hours + fractionOfHour);
+    }
+
+    public void punchOut(double time) {
+        this.hoursWorked += (time - this.punchInTime);
+    }
+
+    public void punchOut() {
+        LocalDateTime dt = LocalDateTime.now();
+        double hours = dt.getHour();
+        double fractionOfHour = dt.getMinute() / 60f;
+        double punchOutTime = hours + fractionOfHour;
+
+        this.hoursWorked += (punchOutTime - this.punchInTime);
     }
 }
