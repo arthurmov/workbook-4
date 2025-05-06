@@ -36,17 +36,4 @@ public class Main {
         System.out.println(r1.isAvailable());
     }
 
-//    public static void testReservation1() {
-//        Reservation r1 = new Reservation("king", false, 1);
-//        System.out.println(r1.getPrice());
-//
-//        Reservation r2 = new Reservation("double", false, 1);
-//        System.out.println(r2.getPrice());
-//
-//        Reservation r3 = new Reservation("king", true, 1);
-//        System.out.println(r3.getPrice());
-//
-//        Reservation r4 = new Reservation("double", true, 1);
-//        System.out.println(r4.getPrice());
-
-    }
+}
