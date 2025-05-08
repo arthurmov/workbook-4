@@ -30,9 +30,8 @@ public class Deck {
     }
 
     public Card deal(){
-        if(cards.size() > 0){
-            Card c = cards.remove(0);
-            return c;
+        if(!cards.isEmpty()){
+            return cards.removeFirst();
         }
         else{
             return null;
