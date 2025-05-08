@@ -74,6 +74,7 @@ public class Main {
         }
     }
 
+    //displays cards
     public static void display(Card c){
         if(c.getSuit().equalsIgnoreCase("Hearts") || c.getSuit().equalsIgnoreCase("Diamonds") ){
             System.out.println(ColorCodes.RED + c.getValue() + " " + c.getSuit() + ColorCodes.RESET );
@@ -95,6 +96,7 @@ public class Main {
         System.out.println("Together they have the value of " + player.getHand().getValue() + "\n");
     }
 
+    //compares players card with dealer and prints winner
     public static void winner(Player player, Player dealer) {
         int playerVal = player.getHand().getValue();
         int dealerVal = dealer.getHand().getValue();
@@ -114,6 +116,7 @@ public class Main {
         }
     }
 
+    //method that prompts the user if they'd like to hit (get another card) or stand
     public static void hitOrStand(Player player, Deck d) {
         boolean turnOver = false;
 
