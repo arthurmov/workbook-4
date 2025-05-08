@@ -17,7 +17,19 @@ public class Main {
         d.shuffle();
 
         List<Player> players = new ArrayList<>();
-        
+
+        Player dealer = new Player("Dealer");
+        dealer.setHand((new Hand()));
+
+        //deals cards to the dealer
+        for (int i = 0; i < 2; i++) {
+            Card c = d.deal();
+            if (c != null) {
+                c.flip();
+                dealer.getHand().deal(c);
+            }
+        }
+
         int numOfPlayers = console.promptForInt("Enter the number of players: ");
 
         //gets name for each player
@@ -43,6 +55,14 @@ public class Main {
         for (Player player : players) {
             display(player);
         }
+
+        System.out.println("\nNow revealing the dealer's hand:");
+        display(dealer);
+
+        for (Player player : players) {
+            winner(player, dealer);
+        }
+
     }
 
     public static void display(Card c){
@@ -63,6 +83,29 @@ public class Main {
         for(Card card: player.getHand().getCards()){
             display(card);
         }
-        System.out.println("Together they have the value of " + player.getHand().getValue());
+        System.out.println("Together they have the value of " + player.getHand().getValue() + "\n");
+    }
+
+    public static void winner(Player player, Player dealer) {
+        int playerVal = player.getHand().getValue();
+        int dealerVal = dealer.getHand().getValue();
+
+        if (playerVal > 21) {
+            System.out.println(player.getPlayerName() + " busted! Dealer wins.");
+        } else if (dealerVal > 21) {
+            System.out.println("Dealer busted! " + player.getPlayerName() + " wins.");
+        } else if (playerVal == 21 && !(dealerVal == 21)) {
+            System.out.println(player.getPlayerName() + " got a BLACKJACK!");
+        } else if (playerVal > dealerVal) {
+            System.out.println(player.getPlayerName() + " wins with " + playerVal + " against dealer's " + dealerVal);
+        } else if (playerVal < dealerVal) {
+            System.out.println("Dealer wins against " + player.getPlayerName());
+        } else {
+            System.out.println(player.getPlayerName() + " and Dealer tied!");
+        }
+    }
+
+    public static void hitOrStand() {
+        //add logic to hit or stand
     }
 }
