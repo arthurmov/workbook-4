@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Main {
 
-    private static Console console = new Console();
+    private static final Console console = new Console();
 
     public static void main(String[] args) {
 
@@ -53,16 +53,25 @@ public class Main {
 
         //displays each players hand
         for (Player player : players) {
-            display(player);
+            hitOrStand(player, d);
         }
 
-        System.out.println("\nNow revealing the dealer's hand:");
+
+        System.out.println("\nDealer's turn:");
+        while (dealer.getHand().getValue() < 17) {
+            Card c = d.deal();
+            if (c != null) {
+                c.flip();
+                dealer.getHand().deal(c);
+                System.out.println("Dealer hits:");
+                display(c);
+            }
+        }
         display(dealer);
 
         for (Player player : players) {
             winner(player, dealer);
         }
-
     }
 
     public static void display(Card c){
@@ -105,7 +114,39 @@ public class Main {
         }
     }
 
-    public static void hitOrStand() {
-        //add logic to hit or stand
+    public static void hitOrStand(Player player, Deck d) {
+        boolean turnOver = false;
+
+        while (!turnOver) {
+            display(player);
+
+            int handValue = player.getHand().getValue();
+            if (handValue >= 21) {
+                if (handValue > 21) {
+                    System.out.println(player.getPlayerName() + " busted!");
+                }
+                break;
+            }
+
+            String action = console.promptForString("Would " + player.getPlayerName() + " like to Hit or Stand? ").toLowerCase();
+
+            switch (action) {
+                case "hit":
+                    Card c = d.deal();
+                    if (c != null) {
+                        c.flip();
+                        player.getHand().deal(c);
+                        System.out.println(player.getPlayerName() + " hits and receives:");
+                        display(c);
+                    }
+                    break;
+                case "stand":
+                    System.out.println(player.getPlayerName() + " stands with " + player.getHand().getValue());
+                    turnOver = true;
+                    break;
+                default:
+                    System.out.println("Invalid input. Please enter H or S.");
+            }
+        }
     }
 }
